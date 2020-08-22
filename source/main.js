@@ -3,7 +3,7 @@ window.onload = function () {
     world.load("guinea-pig-walking", "resources/guinea-pig-walking.png");
     world.load("guinea-pig-picked-up", "resources/guinea-pig-picked-up.png");
 
-    for ( let i=0;i<100;i++ ) {
+    for ( let i=0;i<8;i++ ) {
         new GuineaPig(world);
     }
 

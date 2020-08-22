@@ -11,6 +11,7 @@ let World = function(canvas_id) {
     this.atlas = {};
 
     this.camera = {x: -0.5, y: -0.5, w: 1, h: 1};
+    this.input = new Input(this.canvas);
 
     this._objects = {};
     this._current_index = 0;
@@ -22,7 +23,7 @@ World.prototype.load = function(name, src) {
     let self = this;
     let new_image = new Image();
     new_image.onload = function() {
-        self.atlas[name] = new_image;
+        self.atlas[name] = this;
     }
     new_image.src = src;
 }
@@ -45,6 +46,7 @@ World.prototype.update = function() {
     for (const key in this._objects) {
         this._objects[key].update();
     }
+    this.input.update();
 }
 World.prototype.draw = function() {
     let list = [];
