@@ -6,10 +6,8 @@ let GuineaPig = function(world) {
 
     this.x = Math.random() * this.world.canvas.width;
     this.y = Math.random() * this.world.canvas.height;
+    this.depth = this.y;
     this.direction = 2 * Math.floor(2 * Math.random()) - 1;
-    Object.defineProperty(this, "depth", {
-        get() { return self.y; }
-    });
 
     this._state = GuineaPig.SITTING;
     this._move_vector = [0, 0];
@@ -21,7 +19,7 @@ GuineaPig.PICKED_UP = 2;
 
 GuineaPig.prototype.mouseOn = function(mx, my) {
     // Within the guinea pigs bounding box
-    return ( Math.abs(mx - this.x) < 16 && Math.abs(my - this.y) < 16 );
+    return ( Math.abs(mx - this.x) < 28 && Math.abs(my - this.y) < 28 );
 }
 GuineaPig.prototype.update = function() {
     if ( this.world.input.mouse.fresh && this.world.input.mouse.clicked &&  
@@ -30,8 +28,8 @@ GuineaPig.prototype.update = function() {
     }
     switch ( this._state ) {
         case GuineaPig.PICKED_UP:
-            this.x = this.world.input.mouse.x;
-            this.y = this.world.input.mouse.y;
+            this.x = this.world.input.mouse.x - 8;
+            this.y = this.world.input.mouse.y + 12;
             if ( !this.world.input.mouse.clicked ) {
                 this._state = GuineaPig.SITTING;
             }
@@ -73,6 +71,7 @@ GuineaPig.prototype.update = function() {
             }
             break;
     }
+    this.depth = this.y;
 }
 GuineaPig.prototype.draw = function(ctx) {
     if ( this._state == GuineaPig.PICKED_UP ) {
@@ -82,6 +81,7 @@ GuineaPig.prototype.draw = function(ctx) {
 
         ctx.save();
         ctx.translate(this.x, this.y);
+        ctx.scale(2, 2);
         ctx.drawImage(image, -16, -16);
         ctx.restore();
     }
@@ -92,7 +92,7 @@ GuineaPig.prototype.draw = function(ctx) {
             
         ctx.save();
         ctx.translate(this.x, this.y);
-        ctx.scale(-this.direction, 1);
+        ctx.scale(-this.direction*2, 2);
         ctx.drawImage(image, -16, -16);
         ctx.restore();
     }

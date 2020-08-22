@@ -19,8 +19,9 @@ div.inner {
     vertical-align: middle;
 }
 canvas#game-canvas {
-    width: 640px;
-    height: 480px;
+    cursor: none;
+    width: 768px;
+    height: 576px;
     margin: auto;
     background: black;
 }
