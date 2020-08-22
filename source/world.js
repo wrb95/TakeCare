@@ -52,7 +52,7 @@ World.prototype.draw = function() {
         list.push(this._objects[key]);
     }
     list.sort(function(a, b) {
-        return  (a.y < b.y) ? -1 : (a.y > b.y) ? 1 : 0;
+        return  (a.depth < b.depth) ? -1 : (a.depth > b.depth) ? 1 : 0;
     });
     for ( let i=0;i<list.length;i++ ) {
         list[i].draw(this.ctx);

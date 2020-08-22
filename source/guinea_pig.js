@@ -1,10 +1,15 @@
 let GuineaPig = function(world) {
+    let self = this;
+
     this.world = world;
     this.index = this.world.add(this);
 
     this.x = Math.random() * this.world.canvas.width;
     this.y = Math.random() * this.world.canvas.height;
-    this.direction = 1;
+    this.direction = 2 * Math.floor(2 * Math.random()) - 1;
+    Object.defineProperty(this, "depth", {
+        get() { return self.y; }
+    });
 
     this._state = GuineaPig.SITTING;
     this._move_vector = [0, 0];
@@ -12,6 +17,7 @@ let GuineaPig = function(world) {
 
 GuineaPig.SITTING = 0;
 GuineaPig.MOVING = 1;
+GuineaPig.PICKED_UP = 2;
 
 GuineaPig.prototype.update = function() {
     switch ( this._state ) {
@@ -54,13 +60,18 @@ GuineaPig.prototype.update = function() {
     }
 }
 GuineaPig.prototype.draw = function(ctx) {
-    let image = this.world.atlas["guinea-pig"];
-    if ( !image || !image.complete )
-        return;
-        
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.scale(-this.direction*2, 2);
-    ctx.drawImage(image, -16, -16);
-    ctx.restore();
+    if ( this._state == GuineaPig.PICKED_UP ) {
+
+    }
+    else {
+        let image = this.world.atlas["guinea-pig-walking"];
+        if ( !image || !image.complete )
+            return;
+            
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.scale(-this.direction*2, 2);
+        ctx.drawImage(image, -16, -16);
+        ctx.restore();
+    }
 }
